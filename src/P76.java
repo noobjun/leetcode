@@ -3,11 +3,10 @@ import java.util.Map;
 
 /**
  * Created by jun on 12/23/15.
- * 76. Minimum Window Substring My Submissions Question
+ * 76. Minimum Window Substring
  */
 public class P76 {
     public String minWindow(String s, String t) {
-
         if (s == null || t == null || s.length() == 0 || t.length() == 0 || s.length() < t.length())
             return "";
 

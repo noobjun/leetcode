@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Created by jun on 12/23/15.
- * 199. Binary Tree Right Side View My Submissions Question
+ * 199. Binary Tree Right Side View
  */
 public class P199 {
     public List<Integer> rightSideView(TreeNode root) {
