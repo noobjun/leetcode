@@ -5,7 +5,8 @@
 public class P9 {
     /*
     For this problem, it's easiest to try it against reversed integer. If you directly try to compare head digit and tail
-    digit, you will run into corner cases such as 100031. It's unwieldy to deal with, and not worth the trouble.
+    digit, you will run into corner cases such as 100031. It's unwieldy to deal with, and not worth the trouble. Example of that COOL
+    solution is shown at the bottom.
      */
     public boolean isPalindrome(int x) {
         if (x < 0)
@@ -23,4 +24,31 @@ public class P9 {
         }
         return sum;
     }
+
+    /** COOL SOLUTION, div is tricky to get right
+    public boolean isPalindrome(int x) {
+        //negative numbers are not palindrome
+        if (x < 0)
+            return false;
+
+        // initialize how many zeros
+        int div = 1;
+        while (x / div >= 10) {
+            div *= 10;
+        }
+
+        while (x != 0) {
+            int left = x / div;
+            int right = x % 10;
+
+            if (left != right)
+                return false;
+
+            x = (x % div) / 10;
+            div /= 100;
+        }
+
+        return true;
+    }
+    */
 }
