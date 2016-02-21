@@ -38,7 +38,7 @@ public class P9 {
         }
 
         while (x != 0) {
-            int left = x / div;
+            int left = x / div; // this line with variable div is the KEY to deal with edge cases with 0s such as 100031
             int right = x % 10;
 
             if (left != right)

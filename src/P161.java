@@ -3,10 +3,6 @@
  * 161. One Edit Distance
  */
 public class P161 {
-    public static void main(String[] args) {
-        P161 p = new P161();
-        p.isOneEditDistance("a", "ac");
-    }
     public boolean isOneEditDistance(String s, String t) {
         int a = s.length();
         int b = t.length();
