@@ -22,7 +22,6 @@ public class P14 {
             }
 
             result += prefix;
-
         }
 
         return result;
