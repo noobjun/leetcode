@@ -22,11 +22,7 @@ public class P15 {
                 int sum = a + b + c;
 
                 if (sum == 0) {
-                    List<Integer> list = new LinkedList<>();
-                    list.add(a);
-                    list.add(b);
-                    list.add(c);
-                    set.add(list);
+                    set.add(Arrays.asList(a, b, c));
                     // if equal, then we move both pointers, that is because if we move just left pointer, then sum would be greater than 0, if we just move right pointer, vice versa
                     j++;
                     k--;
