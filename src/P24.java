@@ -3,6 +3,11 @@
  * 24. Swap Nodes in Pairs
  */
 public class P24 {
+    /**
+     * The strategy for doing this problem is to declare "first" and "second" node, it will significantly reduce error
+     * likelihood. Also remember to second first.next pointer to be the newHead, in case there the loop terminates this cycle,
+     * it also prevents infinite loop.
+     */
     public ListNode swapPairs(ListNode head) {
         if (head == null || head.next == null)
             return head;
@@ -20,7 +25,7 @@ public class P24 {
             second.next = first;
 
             prev.next = second;
-            first.next = newHead; // this is needed because if the while loop terminate this cycle, then first.next would point to second, creating infinite loop
+            first.next = newHead; // THIS STEP IS IMPORTANT
             prev = first;
 
             head = newHead;
