@@ -3,16 +3,6 @@
  * 25. Reverse Nodes in k-Group
  */
 public class P25 {
-
-    public static void main(String[] args) {
-        ListNode one = new ListNode(1);
-        ListNode two = new ListNode(2);
-        one.next = two;
-
-        P25 p = new P25();
-        p.reverseKGroup(one, 2);
-    }
-
     public ListNode reverseKGroup(ListNode head, int k) {
         ListNode result = new ListNode(-1);
         result.next = head;
