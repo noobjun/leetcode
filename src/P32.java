@@ -4,6 +4,9 @@ import java.util.Stack;
 /**
  * Created by jun on 2/29/16.
  * 32. Longest Valid Parentheses
+ * <p>
+ * Note this problem can also be solved with DP. Keep an array where arr[i] is the max valid parentheses length with ')'
+ * ending at index i.
  */
 public class P32 {
     public int longestValidParentheses(String s) {
