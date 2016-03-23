@@ -31,7 +31,7 @@ public class P10 {
             return p.charAt(j) == '*' && helper(s, p, dp, i, j - 2);
 
         if (dp[i][j] != -1) {
-            return dp[i][j] == 1 ? true : false;
+            return dp[i][j] == 1;
         } else {
             if (p.charAt(j) == '.') {
                 return helper(s, p, dp, i - 1, j - 1);
