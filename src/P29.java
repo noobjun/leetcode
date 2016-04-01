@@ -1,6 +1,6 @@
 /**
  * Created by jun on 2/28/16.
- * 29. Divide Two Integers My Submissions Question
+ * 29. Divide Two Integers
  * <p>
  * To solve this problem, we should think out side of the box. The problem states that we cannot use multiplication, division,
  * or modular division. So we can use bitwise operations as well as addition and subtraction.
