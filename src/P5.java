@@ -3,10 +3,6 @@
  * 5. Longest Palindromic Substring
  */
 public class P5 {
-    public static void main(String[] args) {
-        P5 p = new P5();
-        System.out.println("a");
-    }
 
     public String longestPalindrome(String s) {
         int len = s.length();

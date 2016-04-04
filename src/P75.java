@@ -3,14 +3,6 @@
  * 75. Sort Colors
  */
 public class P75 {
-    public static void main(String[] args) {
-        int[] arr = new int[]{0, 2, 2, 2, 0, 2, 1, 1};
-        P75 p = new P75();
-        p.sortColors(arr);
-
-        for (int a : arr)
-            System.out.println(a);
-    }
 
     public void sortColors(int[] nums) {
         int left =0;

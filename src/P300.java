@@ -3,15 +3,6 @@
  * 300. Longest Increasing Subsequence
  */
 public class P300 {
-
-    public static void main(String[] args) {
-        P300 p = new P300();
-
-        int[] arr = new int[]{1, 3, 6, 7, 9, 4, 10, 5, 6};
-        int r = p.lengthOfLIS(arr);
-        //System.out.println(r);
-    }
-
     public int lengthOfLIS(int[] nums) {
         int len = nums.length;
         if (len <= 1)

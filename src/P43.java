@@ -6,11 +6,6 @@ import java.util.Map;
  * 43. Multiply Strings
  */
 public class P43 {
-    public static void main(String[] args) {
-        P43 p = new P43();
-
-        System.out.println(p.multiply("98", "9"));
-    }
 
     public String multiply(String num1, String num2) {
         int m = num1.length();

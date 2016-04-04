@@ -6,13 +6,7 @@ import java.util.Map;
  * 166. Fraction to Recurring Decimal
  */
 public class P166 {
-    public static void main(String[] args) {
-        P166 p = new P166();
-        System.out.println(p.fractionToDecimal(2, 1));
-        System.out.println(p.fractionToDecimal(1, 2));
-        System.out.println(p.fractionToDecimal(2, 3));
-        System.out.println(p.fractionToDecimal(-2, 3));
-    }
+
     public String fractionToDecimal(int numerator, int denominator) {
         if (numerator == 0)
             return "0";

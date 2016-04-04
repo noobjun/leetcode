@@ -6,28 +6,7 @@ import java.util.List;
  * 120. Triangle
  */
 public class P120 {
-    public static void main(String[] args) {
-        P120 p = new P120();
 
-        LinkedList<Integer> l1 = new LinkedList<>();
-        LinkedList<Integer> l2 = new LinkedList<>();
-        LinkedList<Integer> l3 = new LinkedList<>();
-
-        l1.add(-1);
-        l2.add(2);
-        l2.add(3);
-        l3.add(1);
-        l3.add(-1);
-        l3.add(-1);
-
-        LinkedList<List<Integer>> input = new LinkedList<>();
-        input.add(l1);
-        input.add(l2);
-        input.add(l3);
-
-        p.minimumTotal(input);
-
-    }
     public int minimumTotal(List<List<Integer>> triangle) {
         int rows = triangle.size();
         if (rows == 0)

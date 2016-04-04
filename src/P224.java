@@ -5,21 +5,6 @@ import java.util.Stack;
  * 224. Basic Calculator
  */
 public class P224 {
-
-    public static void main(String[] args) {
-        P224 p = new P224();
-        String s1 = "2147483647";
-        String s2 = "2-1 + 2";
-        String s3 = "(1+(4+5+2)-3)+(6+8)";
-        int a, b, c;
-        a = p.calculate(s1);
-        b = p.calculate(s2);
-        c = p.calculate(s3);
-        System.out.println(a);
-        System.out.println(b);
-        System.out.println(c);
-    }
-
     public int calculate(String s) {
         Stack<Character> stack = new Stack<>();
         stack.push('+');

@@ -3,11 +3,7 @@
  * 28. Implement strStr()
  */
 public class P28 {
-    public static void main(String[] args) {
-        P28 p = new P28();
-        int val = p.strStr("ballsack noodle", "oo");
-        System.out.println(val);
-    }
+
     public int strStr(String haystack, String needle) {
         int result = -1;
 

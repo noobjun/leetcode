@@ -8,11 +8,7 @@ import java.util.Set;
  * 325. Maximum Size Subarray Sum Equals k
  */
 public class P325 {
-    public static void main(String[] args) {
-        P325 p = new P325();
-        int a = p.maxSubArrayLen(new int[]{1, -1, 5, -2, 3}, 3);
-        System.out.println(a);
-    }
+
 
     public int maxSubArrayLen(int[] nums, int k) {
         int[] sums = new int[nums.length + 1];

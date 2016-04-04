@@ -4,11 +4,6 @@
  */
 public class P169 {
 
-    public static void main(String[] args) {
-        P169 p = new P169();
-        System.out.println(p.majorityElement(new int[]{1, 2, 3, 2, 4, 2, 5, 2, 6}));
-    }
-
     public int majorityElement(int[] nums) {
 
         int index = 0;

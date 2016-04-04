@@ -3,12 +3,6 @@
  * 214. Shortest Palindrome
  */
 public class P214 {
-    public static void main(String[] args) {
-        P214 p = new P214();
-        System.out.println(p.shortestPalindrome("abb"));
-        System.out.println(p.shortestPalindrome("aabb"));
-    }
-
     public String shortestPalindrome(String s) {
         if (s.length() < 2)
             return s;
