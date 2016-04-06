@@ -3,16 +3,13 @@
  * 72. Edit Distance
  */
 public class P72 {
-
     public int minDistance(String word1, String word2) {
         int a = word1.length();
         int b = word2.length();
         int[][] dp = new int[a][b];
-        for (int i = 0; i < a; i++) {
-            for (int j = 0; j < b; j++) {
+        for (int i = 0; i < a; i++)
+            for (int j = 0; j < b; j++)
                 dp[i][j] = -1;
-            }
-        }
 
         return helper(dp, a - 1, b - 1, word1, word2);
     }

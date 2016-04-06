@@ -4,39 +4,23 @@
  */
 public class P161 {
     public boolean isOneEditDistance(String s, String t) {
-        int a = s.length();
-        int b = t.length();
+        int m = s.length();
+        int n = t.length();
 
-        int counter = 0;
-        if (a == b) {
-            for (int i = 0; i < a; i++) {
-                if (s.charAt(i) != t.charAt(i))
-                    counter++;
-            }
-        } else if (Math.abs(a - b) > 1) {
-            return false;
-        } else if (a == 0 && b == 1 || a == 1 && b == 0) {
-            return true;
-        } else {
-            if (b < a) {
-                String temp = s;
-                s = t;
-                t = temp;
-            }
-            for (int i = 0, j = 0; i < s.length() && j < t.length(); ) {
-                if (s.charAt(i) == t.charAt(j)) {
-                    i++;
-                    j++;
-                } else {
-                    j++;
-                    counter++;
-                }
+        for (int i = 0; i < Math.min(m, n); i++) {
+            if (s.charAt(i) != t.charAt(i)) {
+                if (m == n)
+                    return s.substring(i + 1).equals(t.substring(i + 1));
+                else if (m < n)
+                    return s.substring(i).equals(t.substring(i + 1));
+                else
+                    return s.substring(i + 1).equals(t.substring(i));
             }
         }
 
-        if (counter != 0)
-            return false;
-        return true;
+        return Math.abs(m - n) == 1;
+
+
     }
 
 }
