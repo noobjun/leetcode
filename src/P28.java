@@ -1,28 +1,26 @@
 /**
  * Created by jun on 2/7/16.
  * 28. Implement strStr()
+ * <p>
+ * Here's a naive way to do it without KMP.
  */
 public class P28 {
-
     public int strStr(String haystack, String needle) {
-        int result = -1;
+        int m = haystack.length();
+        int n = needle.length();
+        if (m < n)
+            return -1;
 
-        for (int i = 0; i < haystack.length(); i++) {
-            boolean match = true;
-            for (int j = 0; j < needle.length(); j++) {
-                char a, b;
-                a = haystack.charAt(i);
-                b = needle.charAt(j);
-
-                if (a != b) {
-                    match = false;
+        int i, j;
+        for (i = 0; i < m - n + 1; i++) {
+            for (j = 0; j < n; j++)
+                if (haystack.charAt(i + j) != needle.charAt(j))
                     break;
-                }
-            }
-            if (match)
+
+            if (j == n)
                 return i;
         }
 
-        return result;
+        return -1;
     }
 }
