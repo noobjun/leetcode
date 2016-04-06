@@ -7,6 +7,8 @@ import java.util.Set;
 /**
  * Created by jun on 4/6/16.
  * 210. Course Schedule II
+ * <p>
+ * We can improve the topologicalSort method by utilizing the return value, so that we know it has cycles or not.
  */
 public class P210 {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
