@@ -3,6 +3,9 @@ import java.util.Arrays;
 /**
  * Created by jun on 4/10/16.
  * 213. House Robber II
+ * <p>
+ * We can improve this by writing a helper function which takes in the input house ranges, and have the main function call
+ * Math.max(helper(0, n-2), helper(1, n-1))
  */
 public class P213 {
     public int rob(int[] nums) {
