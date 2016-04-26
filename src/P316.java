@@ -4,14 +4,11 @@ import java.util.Stack;
 /**
  * Created by jun on 4/25/16.
  * 316. Remove Duplicate Letters
+ * <p>
+ * We cannot go from end of string to beginning of string and be naively greedy.
+ * It would fail on "abcba", erroneously return "acb", while correct answer is "abc"
  */
 public class P316 {
-    public static void main(String[] args) {
-
-        P316 p = new P316();
-        String s = p.removeDuplicateLetters("abacb");
-        System.out.println(s);
-    }
 
     public String removeDuplicateLetters(String s) {
         int[] count = new int[26];
