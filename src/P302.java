@@ -1,6 +1,8 @@
 /**
  * Created by jun on 4/25/16.
  * 302. Smallest Rectangle Enclosing Black Pixels
+ * <p>
+ * This problem can also be solved with binary search.
  */
 public class P302 {
     int up = Integer.MAX_VALUE;
