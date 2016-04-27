@@ -3,6 +3,12 @@ import java.util.Stack;
 /**
  * Created by jun on 4/26/16.
  * 42. Trapping Rain Water
+ * <p>
+ * Wow this took me so many trial and errors.
+ * <p>
+ * the key is:
+ * if (!stack.empty())
+ * water += (i - stack.peek() - 1) * (Math.min(height[i], height[stack.peek()]) - height[bottom]);
  */
 public class P42 {
     public int trap(int[] height) {
@@ -13,20 +19,14 @@ public class P42 {
         Stack<Integer> stack = new Stack<>();
 
         for (int i = 0; i < height.length; i++) {
-            if (i == 0) {
-                stack.push(i);
-            } else {
-                int bottom = stack.peek();
-                while (!stack.isEmpty() && height[stack.peek()] < height[i]) {
-                    water+=height[i] - stack.peek();
-                    bottom = stack.pop();
-                }
-                if (!stack.isEmpty())
-                    water += (height[i] - bottom) * (i - stack.peek() - 1);
-
-                stack.push(i);
+            while (!stack.isEmpty() && height[i] >= height[stack.peek()]) {
+                int bottom = stack.pop();
+                if (!stack.empty()) // if stack is already empty, then that means left side has no wall, don't add to water
+                    water += (i - stack.peek() - 1) * (Math.min(height[i], height[stack.peek()]) - height[bottom]); // the increment amount is min(current, and stack.peek()), both are taller than the bar kicked out.
             }
+            stack.push(i);
         }
+
         return water;
     }
 }
