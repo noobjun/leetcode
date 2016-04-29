@@ -6,6 +6,8 @@ import java.util.Map;
  * 273. Integer to English Words
  * <p>
  * Watch out for test cases such as 1800, 1000000, be sure don't print out empty spaces.
+ * Another very clean solution.
+ * https://leetcode.com/discuss/55462/my-clean-java-solution-very-easy-to-understand
  */
 public class P273 {
 
