@@ -5,6 +5,7 @@ import java.util.Map;
  * Created by jun on 12/24/15.
  * 3. Longest Substring Without Repeating Characters
  */
+
 public class P3 {
     public int lengthOfLongestSubstring(String s) {
         if (s == null || s.length() == 0)
