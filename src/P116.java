@@ -11,7 +11,7 @@ public class P116 {
     public void connect(TreeLinkNode root) {
         if (root == null)
             return;
-        
+
         TreeLinkNode head = root;
         TreeLinkNode curr = null;
 
