@@ -8,8 +8,6 @@ import java.util.Set;
  * 325. Maximum Size Subarray Sum Equals k
  */
 public class P325 {
-
-
     public int maxSubArrayLen(int[] nums, int k) {
         int[] sums = new int[nums.length + 1];
         int current = 0;
@@ -32,5 +30,4 @@ public class P325 {
         }
         return result;
     }
-
 }
