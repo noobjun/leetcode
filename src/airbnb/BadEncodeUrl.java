@@ -1,5 +1,8 @@
 package airbnb;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by jun on 4/18/16.
  * Often, we want to encode raw IDs in our database by hiding them behind some
@@ -29,4 +32,46 @@ package airbnb;
  * badEncStr) which takes a string and returns the decoded int id.
  */
 public class BadEncodeUrl {
+
+    public static void main(String[] args) {
+        BadEncodeUrl solution = new BadEncodeUrl();
+        List<Integer> result = solution.decodeFind("kljjj324hjks_");
+        System.out.println("size: " + result.size());
+        System.out.println(result.get(0));
+    }
+
+    public List<Integer> decodeFind(String badEncStr) {
+        List<Integer> result = new LinkedList<>();
+        helper(badEncStr, "", 0, result);
+        return result;
+    }
+
+    // can further optimize with String builder
+    public void helper(String badEncStr, String current, int index, List<Integer> result) {
+        if (index == badEncStr.length()) {
+            try {
+                int id = decode(current);
+                result.add(id);
+            } catch (IllegalArgumentException e) {
+                // ignore
+            }
+            return;
+        }
+
+        char ch = badEncStr.charAt(index);
+        if (Character.isAlphabetic(ch) && Character.isLowerCase(ch)) {
+            helper(badEncStr, current + Character.toUpperCase(ch), index + 1, result);
+        }
+        helper(badEncStr, current + ch, index + 1, result);
+    }
+
+    public int decode(String str) {
+        if (str.equals("kljJJ324hjkS_"))
+            return 848662;
+        else
+            throw new IllegalArgumentException("Bad id can't be decoded");
+    }
 }
+
+
+

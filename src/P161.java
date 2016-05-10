@@ -19,8 +19,6 @@ public class P161 {
         }
 
         return Math.abs(m - n) == 1;
-
-
     }
 
 }
