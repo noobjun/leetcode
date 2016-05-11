@@ -32,45 +32,93 @@ import java.util.List;
  * badEncStr) which takes a string and returns the decoded int id.
  */
 public class BadEncodeUrl {
-
     public static void main(String[] args) {
         BadEncodeUrl solution = new BadEncodeUrl();
-        List<Integer> result = solution.decodeFind("kljjj324hjks_");
-        System.out.println("size: " + result.size());
-        System.out.println(result.get(0));
+        List<Integer> res1 = solution.decodeFind("kljjj324hjks_");
+        List<Integer> res2 = solution.decodeFind("kljjj324hj_");
+
+        assert res1.get(0) == 848662;
+        assert res2.size() == 0;
+
+        System.out.println(res1.get(0));
+        System.out.println(res2.size());
     }
 
+
+    // return type is list because a badEncStr might result in multiple valid ids
     public List<Integer> decodeFind(String badEncStr) {
         List<Integer> result = new LinkedList<>();
-        helper(badEncStr, "", 0, result);
+        helper(badEncStr, 0, "", result);
+
         return result;
     }
 
-    // can further optimize with String builder
-    public void helper(String badEncStr, String current, int index, List<Integer> result) {
+    public void helper(String badEncStr, int index, String current, List<Integer> result) {
         if (index == badEncStr.length()) {
             try {
                 int id = decode(current);
                 result.add(id);
             } catch (IllegalArgumentException e) {
-                // ignore
+                // ignore and log
             }
             return;
         }
 
         char ch = badEncStr.charAt(index);
-        if (Character.isAlphabetic(ch) && Character.isLowerCase(ch)) {
-            helper(badEncStr, current + Character.toUpperCase(ch), index + 1, result);
+        if (Character.isLetter(ch) && Character.isLowerCase(ch)) {
+            helper(badEncStr, index + 1, current + Character.toUpperCase(ch), result);
         }
-        helper(badEncStr, current + ch, index + 1, result);
+        helper(badEncStr, index + 1, current + ch, result);
     }
 
-    public int decode(String str) {
-        if (str.equals("kljJJ324hjkS_"))
+
+    public int decode(String testEncStr) {
+        if (testEncStr.equals("kljJJ324hjkS_"))
             return 848662;
         else
-            throw new IllegalArgumentException("Bad id can't be decoded");
+            throw new IllegalArgumentException("bad encoded id.");
     }
+
+
+//    public static void main(String[] args) {
+//        BadEncodeUrl solution = new BadEncodeUrl();
+//        List<Integer> result = solution.decodeFind("kljjj324hjks_");
+//        System.out.println("size: " + result.size());
+//        System.out.println(result.get(0));
+//    }
+//
+//    public List<Integer> decodeFind(String badEncStr) {
+//        List<Integer> result = new LinkedList<>();
+//        helper(badEncStr, "", 0, result);
+//        return result;
+//    }
+//
+//    // can further optimize with String builder
+//    public void helper(String badEncStr, String current, int index, List<Integer> result) {
+//        if (index == badEncStr.length()) {
+//            try {
+//                int id = decode(current);
+//                result.add(id);
+//            } catch (IllegalArgumentException e) {
+//                // ignore
+//            }
+//            return;
+//        }
+//
+//        char ch = badEncStr.charAt(index);
+//        if (Character.isAlphabetic(ch) && Character.isLowerCase(ch)) {
+//            helper(badEncStr, current + Character.toUpperCase(ch), index + 1, result);
+//        }
+//        helper(badEncStr, current + ch,]]ju
+//\ndex + 1, result);
+//    }
+//
+//    public int decode(String str) {
+//        if (str.equals("kljJJ324hjkS_"))
+//            return 848662;
+//        else
+//            throw new IllegalArgumentException("Bad id can't be decoded");
+//    }
 }
 
 

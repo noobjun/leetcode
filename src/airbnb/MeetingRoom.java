@@ -3,6 +3,7 @@ package airbnb;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,34 +31,32 @@ public class MeetingRoom {
             System.out.printf("[%d %d], ", interval.start, interval.end);
     }
 
-    List<Interval> free(List<List<Interval>> intervals) {
-        List<Interval> result = new LinkedList<>();
-
+    public List<Interval> free(List<List<Interval>> intervals) {
         ArrayList<Interval> list = new ArrayList<>();
         for (List<Interval> l : intervals)
             list.addAll(l);
 
-        if (list.isEmpty())
+        List<Interval> result = new LinkedList<>();
+        if (list.size() == 0)
             return result;
 
-        list.sort((a, b) -> new Integer(a.start).compareTo(b.start));
+        Collections.sort(list, (a, b) -> Integer.compare(a.start, b.start));
         ArrayList<Interval> merged = new ArrayList<>();
-
         Interval prev = list.get(0);
         for (int i = 1; i < list.size(); i++) {
-            Interval curr = list.get(i);
-            if (curr.start <= prev.end) {
-                prev = new Interval(prev.start, curr.end);
+            Interval current = list.get(i);
+            if (prev.end >= current.start) {
+                prev = new Interval(prev.start, Math.max(prev.end, current.end)); // don't forget the max() call
             } else {
                 merged.add(prev);
-                prev = curr;
+                prev = current;
             }
         }
 
         merged.add(prev);
 
-        for (int i = 1; i < merged.size(); i++) {
-            result.add(new Interval(merged.get(i - 1).end, merged.get(i).start));
+        for (int i = 0; i < merged.size() - 1; i++) {
+            result.add(new Interval(merged.get(i).end, merged.get(i + 1).start));
         }
 
         return result;

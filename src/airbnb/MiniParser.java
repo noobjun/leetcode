@@ -1,6 +1,7 @@
 package airbnb;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
@@ -26,60 +27,121 @@ public class MiniParser {
     }
 
     public static class Nested {
-        boolean isNumber = false;
+        boolean isNumber;
         int number;
-        List<Nested> list = new ArrayList<>();
+        List<Nested> list;
+
+        public Nested() {
+            isNumber = false;
+            number = -1;
+            list = new ArrayList<>();
+        }
 
         @Override
         public String toString() {
-            if (isNumber) {
+            if (isNumber)
                 return String.valueOf(number);
-            } else {
+            else
                 return list.toString();
-            }
         }
     }
 
-    public String parse(String input) {
-        if (input.isEmpty())
-            return "";
+    public String parse(String line) {
+        String result = "";
+        if (line == null || line.length() == 0)
+            return result;
 
-        input += " "; // important
+        line += " ";
 
         Stack<Nested> stack = new Stack<>();
-        String buffer = "";
+        String token = "";
 
-        for (int i = 0; i < input.length(); i++) {
-            char c = input.charAt(i);
-            if (c == '[') {
+        for (int i = 0; i < line.length(); i++) {
+            char ch = line.charAt(i);
+            if (ch == '[') {
                 stack.push(new Nested());
-            } else if (c == ']' || c == ',' || i == input.length() - 1) {
-                if (!buffer.isEmpty()) {
-                    Nested nested = new Nested();
-                    nested.isNumber = true;
-                    nested.number = Integer.valueOf(buffer);
-                    buffer = ""; // ** remember to reset buffer
-
-                    if (!stack.isEmpty())
-                        stack.peek().list.add(nested);
-                    else
-                        stack.push(nested);
-                }
-
-                if (c == ']') {
-                    Nested nested = stack.pop();
+            } else if (ch == ']' || ch == ',' || i == line.length() - 1) {
+                if (token.length() != 0) {
+                    int num = Integer.valueOf(token);
+                    token = "";
+                    Nested nestedNum = new Nested();
+                    nestedNum.isNumber = true;
+                    nestedNum.number = num;
                     if (stack.isEmpty())
-                        stack.push(nested);
+                        stack.add(nestedNum);
                     else
+                        stack.peek().list.add(nestedNum);
+                }
+                if (ch == ']') {
+                    if (stack.size() >= 2) {
+                        Nested nested = stack.pop();
                         stack.peek().list.add(nested);
+                    }
                 }
             } else {
-                buffer += c;
+                token += ch;
             }
         }
 
-        return stack.isEmpty() ? "" : stack.peek().toString().replaceAll(" ", "");
+        return stack.pop().toString().replaceAll(" ", "");
     }
+
+
+//    public static class Nested {
+//        boolean isNumber = false;
+//        int number;
+//        List<Nested> list = new ArrayList<>();
+//
+//        @Override
+//        public String toString() {
+//            if (isNumber) {
+//                return String.valueOf(number);
+//            } else {
+//                return list.toString();
+//            }
+//        }
+//    }
+//
+//    public String parse(String input) {
+//        if (input.isEmpty())
+//            return "";
+//
+//        input += " "; // important
+//
+//        Stack<Nested> stack = new Stack<>();
+//        String buffer = "";
+//
+//        for (int i = 0; i < input.length(); i++) {
+//            char c = input.charAt(i);
+//            if (c == '[') {
+//                stack.push(new Nested());
+//            } else if (c == ']' || c == ',' || i == input.length() - 1) {
+//                if (!buffer.isEmpty()) {
+//                    Nested nested = new Nested();
+//                    nested.isNumber = true;
+//                    nested.number = Integer.valueOf(buffer);
+//                    buffer = ""; // ** remember to reset buffer
+//
+//                    if (!stack.isEmpty())
+//                        stack.peek().list.add(nested);
+//                    else
+//                        stack.push(nested);
+//                }
+//
+//                if (c == ']') {
+//                    Nested nested = stack.pop();
+//                    if (stack.isEmpty())
+//                        stack.push(nested);
+//                    else
+//                        stack.peek().list.add(nested);
+//                }
+//            } else {
+//                buffer += c;
+//            }
+//        }
+//
+//        return stack.isEmpty() ? "" : stack.peek().toString().replaceAll(" ", "");
+//    }
 
 
 //    public String parse(String input) {

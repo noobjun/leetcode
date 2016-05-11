@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jun on 4/13/16.
@@ -51,6 +52,43 @@ public class PageDisplay {
         PageDisplay p = new PageDisplay();
         p.display(input, 12);
     }
+
+//    public void display(String[] inputs, int linesPerPage) {
+//        Map<Integer, String> map = new LinkedHashMap<>();
+//
+//        List<String> lines = new LinkedList<>(Arrays.asList(inputs));
+//        int counter = 0;
+//        int page = 1;
+//        Iterator<String> iterator;
+//
+//        while (!lines.isEmpty()) {
+//            iterator = lines.iterator();
+//
+//            while (counter < linesPerPage && iterator.hasNext()) {
+//                String line = iterator.next();
+//                int host = hostId(line);
+//                if (!map.containsKey(host)) {
+//                    map.put(host, line);
+//                    counter++;
+//                    iterator.remove();
+//                }
+//            }
+//
+//            System.out.println("Page " + page++);
+//            for (String line : map.values()) {
+//                System.out.println(line);
+//            }
+//
+//            map.clear();
+//            counter=0;
+//        }
+//    }
+//
+//    public int hostId(String line) {
+//        return Integer.valueOf(line.split(",")[0]);
+//    }
+
+
 
     public void display(String[] input, int linesPerPage) {
         if (input.length == 0)
