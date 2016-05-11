@@ -28,68 +28,149 @@ public class RoundElement {
         int[] ans2 = re.smartRound(test2);
         int[] ans3 = re.smartRound(test3);
         int[] ans4 = re.smartRound(test4);
+
+        re.printArray(ans1);
+        re.printArray(ans2);
+        re.printArray(ans3);
+        re.printArray(ans4);
+
+        assert Arrays.equals(expect1, ans1);
+        assert Arrays.equals(expect2, ans2);
+        assert Arrays.equals(expect3, ans3);
+        assert Arrays.equals(expect4, ans4);
     }
 
-    public int[] smartRound(double[] arr) {
-        int len = arr.length;
-        Number[] numbers = new Number[len];
+    public void printArray(int[] arr) {
+        for (int num : arr)
+            System.out.print(num + " ");
+        System.out.println();
+    }
+
+    public int[] smartRound(double[] nums) {
+
+        int roundTogether = 0;
+        int roundSeparate = 0;
         double sum = 0;
-        int separateRoundedSum = 0;
-        int togetherRoundedSum = 0;
-        for (int i = 0; i < len; i++) {
-            numbers[i] = new Number(arr[i], i);
-            sum += arr[i];
-            separateRoundedSum += (int) Math.round(arr[i]);
+
+        Number[] numbers = new Number[nums.length];
+
+        for (int i = 0; i < nums.length; i++) {
+            double num = nums[i];
+            Number number = new Number(num, i);
+            numbers[i] = number;
+            sum += num;
+            roundSeparate += number.rounded;
         }
-        togetherRoundedSum = (int) Math.round(sum);
 
-        int[] result = new int[len];
-        int count = separateRoundedSum - togetherRoundedSum;
+        roundTogether = (int) Math.round(sum);
+        int[] result = new int[nums.length];
 
-        if (count < 0) {
-            count = -count;
-            Arrays.sort(numbers, (a, b) -> (Double.compare(a.up, b.up))); // need to round up a few numbers
-            for (int i = 0; i < len; i++) {
-                Number number = numbers[i];
-                if (number.up > 0.5 && count > 0) {
-                    result[number.index] = (int) Math.ceil(number.number);
-                    count--; //** dont forget to decrement
+        int diff = roundTogether - roundSeparate;
+        if (diff < 0) {
+            diff = -diff;
+            // need to round down some elements
+            Arrays.sort(numbers, (a, b) -> Double.compare(a.down, b.down));
+            for (int i = 0; i < numbers.length; i++) {
+                if (diff > 0 && numbers[i].down >= 0.5) {
+                    diff--;
+                    result[numbers[i].index] = numbers[i].rounded - 1;
                 } else {
-                    result[number.index] = (int) Math.round(number.number);
+                    result[numbers[i].index] = numbers[i].rounded;
                 }
             }
-        } else if (count > 0) {
-            Arrays.sort(numbers, (a, b) -> (Double.compare(a.down, b.down))); // need to round down a few numbers
-            for (int i = 0; i < len; i++) {
-                Number number = numbers[i];
-                if (number.down > 0.5 && count > 0) {
-                    result[number.index] = (int) Math.floor(number.number);
-                    count--; //** dont forget to decrement
+        } else if (diff > 0) {
+            // need to round up some elements
+            Arrays.sort(numbers, (a, b) -> Double.compare(a.up, b.up));
+            for (int i = 0; i < numbers.length; i++) {
+                if (diff > 0 && numbers[i].up > 0.5) {
+                    diff--;
+                    result[numbers[i].index] = numbers[i].rounded + 1;
                 } else {
-                    result[number.index] = (int) Math.round(number.number);
+                    result[numbers[i].index] = numbers[i].rounded;
                 }
             }
-        } else {
-            for (int i = 0; i < len; i++)
-                result[i] = (int) Math.round(arr[i]);
         }
 
         return result;
     }
 
-    class Number {
+    public static class Number {
         double number;
+        int rounded;
+        double up; // distance between number and ceil(number)
+        double down; // distance between number and floor(number)
         int index;
-        double up;
-        double down;
 
         public Number(double number, int index) {
             this.number = number;
-            this.index = index;
+            this.rounded = (int) Math.round(number);
             this.up = Math.ceil(number) - number;
             this.down = number - Math.floor(number);
+            this.index = index;
         }
     }
+
+
+//    public int[] smartRound(double[] arr) {
+//        int len = arr.length;
+//        Number[] numbers = new Number[len];
+//        double sum = 0;
+//        int separateRoundedSum = 0;
+//        int togetherRoundedSum = 0;
+//        for (int i = 0; i < len; i++) {
+//            numbers[i] = new Number(arr[i], i);
+//            sum += arr[i];
+//            separateRoundedSum += (int) Math.round(arr[i]);
+//        }
+//        togetherRoundedSum = (int) Math.round(sum);
+//
+//        int[] result = new int[len];
+//        int count = separateRoundedSum - togetherRoundedSum;
+//
+//        if (count < 0) {
+//            count = -count;
+//            Arrays.sort(numbers, (a, b) -> (Double.compare(a.up, b.up))); // need to round up a few numbers
+//            for (int i = 0; i < len; i++) {
+//                Number number = numbers[i];
+//                if (number.up > 0.5 && count > 0) {
+//                    result[number.index] = (int) Math.ceil(number.number);
+//                    count--; //** dont forget to decrement
+//                } else {
+//                    result[number.index] = (int) Math.round(number.number);
+//                }
+//            }
+//        } else if (count > 0) {
+//            Arrays.sort(numbers, (a, b) -> (Double.compare(a.down, b.down))); // need to round down a few numbers
+//            for (int i = 0; i < len; i++) {
+//                Number number = numbers[i];
+//                if (number.down > 0.5 && count > 0) {
+//                    result[number.index] = (int) Math.floor(number.number);
+//                    count--; //** dont forget to decrement
+//                } else {
+//                    result[number.index] = (int) Math.round(number.number);
+//                }
+//            }
+//        } else {
+//            for (int i = 0; i < len; i++)
+//                result[i] = (int) Math.round(arr[i]);
+//        }
+//
+//        return result;
+//    }
+//
+//    class Number {
+//        double number;
+//        int index;
+//        double up;
+//        double down;
+//
+//        public Number(double number, int index) {
+//            this.number = number;
+//            this.index = index;
+//            this.up = Math.ceil(number) - number;
+//            this.down = number - Math.floor(number);
+//        }
+//    }
 }
 
 
