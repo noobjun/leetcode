@@ -33,7 +33,7 @@ public class P117 {
                     if (prev != null)
                         prev.next = curr.left;
                     else
-                        head = curr.left; // KEY, it needs to find the start of next leve, which might not be head.left as previous problem
+                        head = curr.left; // KEY, it needs to find the start of next level, which might not be head.left as previous problem
                     prev = curr.left;
                 }
 
