@@ -9,6 +9,10 @@
  * if j goes out of bound means all zeroes are on the right already
  */
 public class P283 {
+    public static void main(String[] args) {
+        P283 p = new P283();
+        p.moveZeroes(new int[]{0, 0, 1, 0, 1, 1, 1});
+    }
     public void moveZeroes(int[] nums) {
         for (int i = 0, j = 0; i < nums.length; i++) {
             if (nums[i] != 0) {

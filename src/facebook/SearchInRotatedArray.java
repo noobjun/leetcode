@@ -4,13 +4,7 @@ package facebook;
 /**
  * Created by jun on 5/16/16.
  */
-public class MininumWindow {
-    public static void main(String[] args) {
-
-        MininumWindow minWindow = new MininumWindow();
-//        minWindow.minWindow("ab", "a");
-    }
-
+public class SearchInRotatedArray {
     public int search(int[] nums, int target) {
         if (nums.length == 0)
             return -1;

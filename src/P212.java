@@ -1,11 +1,10 @@
-package airbnb;
+/**
+ * Created by jun on 5/22/16.
+ */
 
 import java.util.*;
 
-/**
- * Created by jun on 4/13/16.
- */
-public class WordSearchII {
+public class P212 {
     public List<String> findWords(char[][] board, String[] words) {
         List<String> result = new LinkedList<>();
 
