@@ -3,7 +3,7 @@ package airbnb;
 /**
  * Created by jun on 4/13/16.
  * Interview Questions
- * Given a set of numbers in an array which represent number of consecutive days of AirBnB reservation requested, as a host, pick the sequence which maximizes the number of days of occupancy, at the same time, leaving atleast 1 day gap in between bookings for cleaning. Problem reduces to finding max-sum of non-consecutive array elements.
+ * Given a set of numbers in an array which represent number of consecutive days of AirBnB reservation requested, as a host, pick the sequence which maximizes the number of days of occupancy, at the same time, leaving at least 1 day gap in between bookings for cleaning. Problem reduces to finding max-sum of non-consecutive array elements.
  * <p>
  * // [5, 1, 1, 5] => 10
  * The above array would represent an example booking period as follows -
@@ -36,11 +36,28 @@ public class MaxOccupancy {
         dp[0] = nums[0];
 
         for (int i = 1; i < nums.length; i++) {
-            int robThis = nums[i] + (i - 2 >= 0 ? dp[i - 2] : 0);
-            int dontRob = dp[i - 1];
-            dp[i] = Math.max(robThis, dontRob);
-        }
+            int rob = nums[i] + (i - 2 >= 0 ? dp[i - 2] : 0);
+            int notRob = dp[i - 1];
+            dp[i] = Math.max(rob, notRob);
 
+        }
         return dp[nums.length - 1];
     }
+
+//
+//    public int maxDays(int[] nums) {
+//        if (nums.length == 0)
+//            return 0;
+//
+//        int[] dp = new int[nums.length];
+//        dp[0] = nums[0];
+//
+//        for (int i = 1; i < nums.length; i++) {
+//            int robThis = nums[i] + (i - 2 >= 0 ? dp[i - 2] : 0);
+//            int dontRob = dp[i - 1];
+//            dp[i] = Math.max(robThis, dontRob);
+//        }
+//
+//        return dp[nums.length - 1];
+//    }
 }

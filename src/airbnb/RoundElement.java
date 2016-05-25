@@ -47,44 +47,42 @@ public class RoundElement {
     }
 
     public int[] smartRound(double[] nums) {
-
-        int roundTogether = 0;
         int roundSeparate = 0;
-        double sum = 0;
-
+        double totalSum = 0;
         Number[] numbers = new Number[nums.length];
 
         for (int i = 0; i < nums.length; i++) {
-            double num = nums[i];
-            Number number = new Number(num, i);
-            numbers[i] = number;
-            sum += num;
-            roundSeparate += number.rounded;
+            numbers[i] = new Number(nums[i], i);
+            roundSeparate += numbers[i].rounded;
+            totalSum += nums[i];
         }
 
-        roundTogether = (int) Math.round(sum);
-        int[] result = new int[nums.length];
+        int roundedTogether = (int)Math.round(totalSum);
+        int diff = roundedTogether - roundSeparate;
 
-        int diff = roundTogether - roundSeparate;
-        if (diff < 0) {
+        int[] result = new int[nums.length];
+        if (diff == 0) {
+            for (int i = 0; i < result.length; i++)
+                result[i] = numbers[i].rounded;
+        } else if (diff < 0) {
+            // we need to round things down, aka by calling floor() more
             diff = -diff;
-            // need to round down some elements
             Arrays.sort(numbers, (a, b) -> Double.compare(a.down, b.down));
             for (int i = 0; i < numbers.length; i++) {
-                if (diff > 0 && numbers[i].down >= 0.5) {
+                if (numbers[i].down >= 0.5 && diff > 0) {
+                    result[numbers[i].index] = (int) Math.floor(numbers[i].number);
                     diff--;
-                    result[numbers[i].index] = numbers[i].rounded - 1;
                 } else {
                     result[numbers[i].index] = numbers[i].rounded;
                 }
             }
         } else if (diff > 0) {
-            // need to round up some elements
+            // we need to round things up, aka by calling ceil() more
             Arrays.sort(numbers, (a, b) -> Double.compare(a.up, b.up));
             for (int i = 0; i < numbers.length; i++) {
-                if (diff > 0 && numbers[i].up > 0.5) {
+                if (numbers[i].up > 0.5 && diff > 0) {
+                    result[numbers[i].index] = (int) Math.ceil(numbers[i].number);
                     diff--;
-                    result[numbers[i].index] = numbers[i].rounded + 1;
                 } else {
                     result[numbers[i].index] = numbers[i].rounded;
                 }
@@ -97,8 +95,8 @@ public class RoundElement {
     public static class Number {
         double number;
         int rounded;
-        double up; // distance between number and ceil(number)
-        double down; // distance between number and floor(number)
+        double up;
+        double down;
         int index;
 
         public Number(double number, int index) {
@@ -109,6 +107,70 @@ public class RoundElement {
             this.index = index;
         }
     }
+
+//    public int[] smartRound(double[] nums) {
+//
+//        int roundTogether = 0;
+//        int roundSeparate = 0;
+//        double sum = 0;
+//
+//        Number[] numbers = new Number[nums.length];
+//
+//        for (int i = 0; i < nums.length; i++) {
+//            double num = nums[i];
+//            Number number = new Number(num, i);
+//            numbers[i] = number;
+//            sum += num;
+//            roundSeparate += number.rounded;
+//        }
+//
+//        roundTogether = (int) Math.round(sum);
+//        int[] result = new int[nums.length];
+//
+//        int diff = roundTogether - roundSeparate;
+//        if (diff < 0) {
+//            diff = -diff;
+//            // need to round down some elements
+//            Arrays.sort(numbers, (a, b) -> Double.compare(a.down, b.down));
+//            for (int i = 0; i < numbers.length; i++) {
+//                if (diff > 0 && numbers[i].down >= 0.5) {
+//                    diff--;
+//                    result[numbers[i].index] = numbers[i].rounded - 1;
+//                } else {
+//                    result[numbers[i].index] = numbers[i].rounded;
+//                }
+//            }
+//        } else if (diff > 0) {
+//            // need to round up some elements
+//            Arrays.sort(numbers, (a, b) -> Double.compare(a.up, b.up));
+//            for (int i = 0; i < numbers.length; i++) {
+//                if (diff > 0 && numbers[i].up > 0.5) {
+//                    diff--;
+//                    result[numbers[i].index] = numbers[i].rounded + 1;
+//                } else {
+//                    result[numbers[i].index] = numbers[i].rounded;
+//                }
+//            }
+//        }
+//
+//        return result;
+//    }
+//
+//    public static class Number {
+//        double number;
+//        int rounded;
+//        double up; // distance between number and ceil(number)
+//        double down; // distance between number and floor(number)
+//        int index;
+//
+//        public Number(double number, int index) {
+//            this.number = number;
+//            this.rounded = (int) Math.round(number);
+//            this.up = Math.ceil(number) - number;
+//            this.down = number - Math.floor(number);
+//            this.index = index;
+//        }
+//    }
 
 
 //    public int[] smartRound(double[] arr) {

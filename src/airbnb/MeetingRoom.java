@@ -31,37 +31,6 @@ public class MeetingRoom {
             System.out.printf("[%d %d], ", interval.start, interval.end);
     }
 
-    public List<Interval> free(List<List<Interval>> intervals) {
-        ArrayList<Interval> list = new ArrayList<>();
-        for (List<Interval> l : intervals)
-            list.addAll(l);
-
-        List<Interval> result = new LinkedList<>();
-        if (list.size() == 0)
-            return result;
-
-        Collections.sort(list, (a, b) -> Integer.compare(a.start, b.start));
-        ArrayList<Interval> merged = new ArrayList<>();
-        Interval prev = list.get(0);
-        for (int i = 1; i < list.size(); i++) {
-            Interval current = list.get(i);
-            if (prev.end >= current.start) {
-                prev = new Interval(prev.start, Math.max(prev.end, current.end)); // don't forget the max() call
-            } else {
-                merged.add(prev);
-                prev = current;
-            }
-        }
-
-        merged.add(prev);
-
-        for (int i = 0; i < merged.size() - 1; i++) {
-            result.add(new Interval(merged.get(i).end, merged.get(i + 1).start));
-        }
-
-        return result;
-    }
-
     public static class Interval {
         int start;
         int end;
@@ -71,4 +40,80 @@ public class MeetingRoom {
             this.end = end;
         }
     }
+
+    public List<Interval> free(List<List<Interval>> intervals) {
+        ArrayList<Interval> list = new ArrayList<>();
+        for (List<Interval> l : intervals)
+            list.addAll(l);
+
+        list.sort((a, b) -> {
+            if (a.start == b.start)
+                return Integer.compare(a.end, b.end);
+            else
+                return Integer.compare(a.start, b.start);
+        });
+
+        ArrayList<Interval> merged = new ArrayList<>();
+        Interval prev = list.get(0);
+        for (int i = 1; i < list.size(); i++) {
+            Interval curr = list.get(i);
+            if (curr.start > prev.end) {
+                merged.add(prev);
+                prev = curr;
+            } else {
+                prev = new Interval(prev.start, curr.end);
+            }
+        }
+        merged.add(prev);
+
+        List<Interval> result = new LinkedList<>();
+        for (int i = 0; i < merged.size() - 1; i++) {
+            result.add(new Interval(merged.get(i).end, merged.get(i + 1).start));
+        }
+
+        return result;
+    }
+
+
+//
+//    public List<Interval> free(List<List<Interval>> intervals) {
+//        ArrayList<Interval> list = new ArrayList<>();
+//        for (List<Interval> l : intervals)
+//            list.addAll(l);
+//
+//        List<Interval> result = new LinkedList<>();
+//        if (list.size() == 0)
+//            return result;
+//
+//        Collections.sort(list, (a, b) -> Integer.compare(a.start, b.start));
+//        ArrayList<Interval> merged = new ArrayList<>();
+//        Interval prev = list.get(0);
+//        for (int i = 1; i < list.size(); i++) {
+//            Interval current = list.get(i);
+//            if (prev.end >= current.start) {
+//                prev = new Interval(prev.start, Math.max(prev.end, current.end)); // don't forget the max() call
+//            } else {
+//                merged.add(prev);
+//                prev = current;
+//            }
+//        }
+//
+//        merged.add(prev);
+//
+//        for (int i = 0; i < merged.size() - 1; i++) {
+//            result.add(new Interval(merged.get(i).end, merged.get(i + 1).start));
+//        }
+//
+//        return result;
+//    }
+//
+//    public static class Interval {
+//        int start;
+//        int end;
+//
+//        public Interval(int start, int end) {
+//            this.start = start;
+//            this.end = end;
+//        }
+//    }
 }

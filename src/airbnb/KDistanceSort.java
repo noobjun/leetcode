@@ -20,18 +20,33 @@ public class KDistanceSort {
 
     public static void kSort(int[] nums, int k) {
         PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-        for (int i = 0; i < k; i++) {
+        for (int i = 0; i < k; i++)
             minHeap.add(nums[i]);
-        }
 
         for (int i = 0; i < nums.length; i++) {
-            if (i+k<nums.length)
+            if (i+k<nums.length) {
                 minHeap.add(nums[i+k]);
+            }
 
-            nums[i]=minHeap.poll();
+            nums[i] = minHeap.poll();
         }
-
     }
+
+//
+//    public static void kSort(int[] nums, int k) {
+//        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+//        for (int i = 0; i < k; i++) {
+//            minHeap.add(nums[i]);
+//        }
+//
+//        for (int i = 0; i < nums.length; i++) {
+//            if (i+k<nums.length)
+//                minHeap.add(nums[i+k]);
+//
+//            nums[i]=minHeap.poll();
+//        }
+//
+//    }
 
 //    public static void kSort(int[] nums, int k) {
 //        PriorityQueue<Integer> heap = new PriorityQueue<>();

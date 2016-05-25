@@ -46,57 +46,109 @@ public class CSVParser {
     }
 
     public String parse(String input) {
-        String result = "";
-        if (input == null || input.length() == 0)
-            return result;
-
-        List<String> tokens = new ArrayList<>(); // store tokens that is to be separated by |
-        String token = "";
+        List<String> tokens = new LinkedList<>();
         boolean inQuote = false;
+        String token = "";
         for (int i = 0; i < input.length(); i++) {
             char ch = input.charAt(i);
+
             if (ch == '"') {
                 inQuote = !inQuote;
                 token += ch;
-            } else if (ch == ',' && !inQuote) {
-                tokens.add(token);
-                token = "";
+            } else if (!inQuote && ch == ',') { // only add to token if it's not in quotes and meets a comma¡¡
+                    tokens.add(token);
+                    token = "";
             } else {
                 token += ch;
             }
         }
 
-        tokens.add(token);
+        tokens.add(token); // remember to add a token
 
-        // now we have a list of tokens, which might contain duplicate quotes
-        // need to sanitize
+        String result = "";
         for (int i = 0; i < tokens.size(); i++) {
-            if (i == 0)
+            if (i == tokens.size() - 1) {
                 result += sanitize(tokens.get(i));
-            else
-                result += "|" + sanitize(tokens.get(i));
+            } else {
+                result += sanitize(tokens.get(i)) + '|';
+            }
         }
 
         return result;
     }
 
     public String sanitize(String token) {
-        String result = "";
         if (token == null || token.length() == 0)
-            return result;
+            return "";
 
-        if (token.charAt(0) == '"' && token.charAt(token.length() - 1) == '"')
+        if (token.charAt(0) == '"')
             token = token.substring(1, token.length() - 1);
 
-        // this skips double quotes
+
+        String result = "";
         for (int i = 0; i < token.length(); i++) {
             if (token.charAt(i) == '"' && i + 1 < token.length() && token.charAt(i + 1) == '"')
                 continue;
-            result += token.charAt(i);
+            else
+                result += token.charAt(i);
         }
 
         return result;
     }
+
+
+//    public String parse(String input) {
+//        String result = "";
+//        if (input == null || input.length() == 0)
+//            return result;
+//
+//        List<String> tokens = new ArrayList<>(); // store tokens that is to be separated by |
+//        String token = "";
+//        boolean inQuote = false;
+//        for (int i = 0; i < input.length(); i++) {
+//            char ch = input.charAt(i);
+//            if (ch == '"') {
+//                inQuote = !inQuote;
+//                token += ch;
+//            } else if (ch == ',' && !inQuote) {
+//                tokens.add(token);
+//                token = "";
+//            } else {
+//                token += ch;
+//            }
+//        }
+//
+//        tokens.add(token);
+//
+//        // now we have a list of tokens, which might contain duplicate quotes
+//        // need to sanitize
+//        for (int i = 0; i < tokens.size(); i++) {
+//            if (i == 0)
+//                result += sanitize(tokens.get(i));
+//            else
+//                result += "|" + sanitize(tokens.get(i));
+//        }
+//
+//        return result;
+//    }
+//
+//    public String sanitize(String token) {
+//        String result = "";
+//        if (token == null || token.length() == 0)
+//            return result;
+//
+//        if (token.charAt(0) == '"' && token.charAt(token.length() - 1) == '"')
+//            token = token.substring(1, token.length() - 1);
+//
+//        // this skips double quotes
+//        for (int i = 0; i < token.length(); i++) {
+//            if (token.charAt(i) == '"' && i + 1 < token.length() && token.charAt(i + 1) == '"')
+//                continue;
+//            result += token.charAt(i);
+//        }
+//
+//        return result;
+//    }
 
 
 //    public String parse(String input) {

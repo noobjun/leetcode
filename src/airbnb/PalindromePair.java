@@ -7,14 +7,14 @@ import java.util.*;
  * Created by jun on 4/17/16.
  */
 public class PalindromePair {
-
+    // tab,bat  tab-bat bat-tab
+    // ta, bbat ta-bbat bbat-ta x
     public List<List<Integer>> palindromePairs(String[] words) {
         List<List<Integer>> result = new LinkedList<>();
+        Map<String, Integer> map = new HashMap<>();
 
-        Map<String, Integer> map = new HashMap<>(); // key is word, and value is its index
         for (int i = 0; i < words.length; i++)
             map.put(words[i], i);
-
 
         for (int i = 0; i < words.length; i++) {
             String word = words[i];
@@ -22,20 +22,16 @@ public class PalindromePair {
                 String left = word.substring(0, j);
                 String right = word.substring(j);
 
-                String rLeft = reverse(left); // this will have a performance impact on leetcode original problem
-                String rRight = reverse(right);
-
-                // left is the center
-                if (isPalindrome(left) && map.containsKey(rRight)) {
-                    if (map.get(rRight) != i)
-                        result.add(Arrays.asList(map.get(rRight), i));
-
+                // left is center
+                if (isPalindrome(left) && map.containsKey(reverse(right))) {
+                    if (i != map.get(reverse(right)))
+                        result.add(Arrays.asList( map.get(reverse(right)), i));
                 }
 
-                // right is the center
-                if (isPalindrome(right) && map.containsKey(rLeft) && j != word.length()) {
-                    if (map.get(rLeft) != i)
-                        result.add(Arrays.asList(i, map.get(rLeft)));
+                // right is center
+                if (isPalindrome(right) && map.containsKey(reverse(left)) && j != word.length()) {
+                    if (i != map.get(reverse(left)))
+                        result.add(Arrays.asList(i, map.get(reverse(left))));
                 }
             }
         }
@@ -43,30 +39,85 @@ public class PalindromePair {
         return result;
     }
 
-    private String reverse(String str) {
-        if (str == null || str.length() == 1)
-            return str;
-
-        String result = "";
-        for (int i = str.length() - 1; i >= 0; i--)
-            result += str.charAt(i);
-
-        return result;
-    }
-
     private boolean isPalindrome(String str) {
-        if (str == null || str.length() <= 1)
+        if (str == null || str.isEmpty())
             return true;
 
-        int i = 0;
-        int j = str.length() - 1;
+        int i = 0, j = str.length() - 1;
         while (i < j) {
-            if (str.charAt(i++) != str.charAt(j--))
+            if (str.charAt(i) != str.charAt(j))
                 return false;
+            i++;
+            j--;
         }
         return true;
     }
 
+    private String reverse(String str) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(str);
+        return sb.reverse().toString();
+    }
+
+//    public List<List<Integer>> palindromePairs(String[] words) {
+//        List<List<Integer>> result = new LinkedList<>();
+//
+//        Map<String, Integer> map = new HashMap<>(); // key is word, and value is its index
+//        for (int i = 0; i < words.length; i++)
+//            map.put(words[i], i);
+//
+//
+//        for (int i = 0; i < words.length; i++) {
+//            String word = words[i];
+//            for (int j = 0; j <= word.length(); j++) {
+//                String left = word.substring(0, j);
+//                String right = word.substring(j);
+//
+//                String rLeft = reverse(left); // this will have a performance impact on leetcode original problem
+//                String rRight = reverse(right);
+//
+//                // left is the center
+//                if (isPalindrome(left) && map.containsKey(rRight)) {
+//                    if (map.get(rRight) != i)
+//                        result.add(Arrays.asList(map.get(rRight), i));
+//
+//                }
+//
+//                // right is the center
+//                if (isPalindrome(right) && map.containsKey(rLeft) && j != word.length()) {
+//                    if (map.get(rLeft) != i)
+//                        result.add(Arrays.asList(i, map.get(rLeft)));
+//                }
+//            }
+//        }
+//
+//        return result;
+//    }
+//
+//    private String reverse(String str) {
+//        if (str == null || str.length() == 1)
+//            return str;
+//
+//        String result = "";
+//        for (int i = str.length() - 1; i >= 0; i--)
+//            result += str.charAt(i);
+//
+//        return result;
+//    }
+//
+//    private boolean isPalindrome(String str) {
+//        if (str == null || str.length() <= 1)
+//            return true;
+//
+//        int i = 0;
+//        int j = str.length() - 1;
+//        while (i < j) {
+//            if (str.charAt(i++) != str.charAt(j--))
+//                return false;
+//        }
+//        return true;
+//    }
+//
 
 //    public List<List<Integer>> palindromePairs(String[] words) {
 //        Map<String, Integer> map = new HashMap<>();

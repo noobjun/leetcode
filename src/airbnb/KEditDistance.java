@@ -13,7 +13,7 @@ import java.util.*;
 public class KEditDistance {
     public static void main(String[] args) {
         KEditDistance solution = new KEditDistance();
-        List<String> words = solution.findKEditDistance("cake", Arrays.asList("cak", "asdfvvcb", "cake", "cab", "cake12", "cake123"), 0);
+        List<String> words = solution.findKEditDistance("cake", Arrays.asList("cak", "asdfvvcb", "cake", "cab", "cake12", "cake123"), 2);
         for (String word : words)
             System.out.println(word);
     }
@@ -22,52 +22,47 @@ public class KEditDistance {
         Trie trie = new Trie();
         for (String word : words)
             trie.addWord(word);
+
         List<String> result = new LinkedList<>();
-
         LinkedList<LinkedList<Integer>> dp = new LinkedList<>();
-        LinkedList<Integer> firstRow = new LinkedList<>();
-        for (int i = 0; i <= target.length(); i++) {
-            firstRow.add(i);
-        }
-        dp.add(firstRow);
+        LinkedList<Integer> row = new LinkedList<>();
+        for (int i = 0; i <= target.length(); i++)
+            row.add(i);
 
-        helper(trie.root, target, "", k, dp, result);
+        dp.add(row);
+        dfs(trie.root, "", k, target, dp, result);
+
         return result;
     }
 
-    public void helper(Node node, String target, String current, int k, LinkedList<LinkedList<Integer>> dp, List<String> result) {
+    public void dfs(Node node, String current, int k, String target, LinkedList<LinkedList<Integer>> dp, List<String> result) {
         if (node.isWord && dp.getLast().getLast() <= k)
             result.add(current);
-        else if (current.length() >= target.length() && dp.getLast().getLast() > k)
+        if (current.length() >= target.length() && dp.getLast().getLast() > k)
             return;
 
         for (char ch : node.map.keySet()) {
-            LinkedList<Integer> newRow = new LinkedList<>();
-            newRow.add(current.length() + 1);
-            for (int j = 1; j <= target.length(); j++) {
-                if (target.charAt(j - 1) == ch) {
-                    newRow.add(dp.getLast().get(j - 1));
+            LinkedList<Integer> row = new LinkedList<>();
+            String candidate = current + ch;
+            row.add(candidate.length());
+            for (int i = 1; i <= target.length(); i++) {
+                if (ch == target.charAt(i - 1)) {
+                    row.add(dp.getLast().get(i - 1));
                 } else {
-                    newRow.add(Math.min(dp.getLast().get(j - 1), Math.min(dp.getLast().get(j), newRow.get(j - 1))) + 1);
+                    row.add(Math.min(dp.getLast().get(i - 1), Math.min(dp.getLast().get(i), row.get(i - 1))) + 1);
                 }
             }
-
-            dp.add(newRow);
-            helper(node.map.get(ch), target, current + ch, k, dp, result);
+            dp.add(row);
+            dfs(node.map.get(ch), current + ch, k, target, dp, result);
             dp.removeLast();
         }
     }
 
-    class Trie {
-        Node root;
-
-        public Trie() {
-            root = new Node();
-        }
+    public static class Trie {
+        Node root = new Node();
 
         public void addWord(String word) {
             Node start = root;
-
             for (char ch : word.toCharArray()) {
                 start.map.putIfAbsent(ch, new Node());
                 start = start.map.get(ch);
@@ -77,15 +72,84 @@ public class KEditDistance {
         }
     }
 
-    class Node {
-        boolean isWord;
+    public static class Node {
         Map<Character, Node> map;
+        boolean isWord;
 
         public Node() {
-            isWord = false;
             map = new HashMap<>();
+            isWord = false;
         }
     }
+
+//    public List<String> findKEditDistance(String target, List<String> words, int k) {
+//        Trie trie = new Trie();
+//        for (String word : words)
+//            trie.addWord(word);
+//        List<String> result = new LinkedList<>();
+//
+//        LinkedList<LinkedList<Integer>> dp = new LinkedList<>();
+//        LinkedList<Integer> firstRow = new LinkedList<>();
+//        for (int i = 0; i <= target.length(); i++) {
+//            firstRow.add(i);
+//        }
+//        dp.add(firstRow);
+//
+//        helper(trie.root, target, "", k, dp, result);
+//        return result;
+//    }
+//
+//    public void helper(Node node, String target, String current, int k, LinkedList<LinkedList<Integer>> dp, List<String> result) {
+//        if (node.isWord && dp.getLast().getLast() <= k)
+//            result.add(current);
+//        else if (current.length() >= target.length() && dp.getLast().getLast() > k)
+//            return;
+//
+//        for (char ch : node.map.keySet()) {
+//            LinkedList<Integer> newRow = new LinkedList<>();
+//            newRow.add(current.length() + 1);
+//            for (int j = 1; j <= target.length(); j++) {
+//                if (target.charAt(j - 1) == ch) {
+//                    newRow.add(dp.getLast().get(j - 1));
+//                } else {
+//                    newRow.add(Math.min(dp.getLast().get(j - 1), Math.min(dp.getLast().get(j), newRow.get(j - 1))) + 1);
+//                }
+//            }
+//
+//            dp.add(newRow);
+//            helper(node.map.get(ch), target, current + ch, k, dp, result);
+//            dp.removeLast();
+//        }
+//    }
+//
+//    class Trie {
+//        Node root;
+//
+//        public Trie() {
+//            root = new Node();
+//        }
+//
+//        public void addWord(String word) {
+//            Node start = root;
+//
+//            for (char ch : word.toCharArray()) {
+//                start.map.putIfAbsent(ch, new Node());
+//                start = start.map.get(ch);
+//            }
+//
+//            start.isWord = true;
+//        }
+//    }
+//
+//    class Node {
+//        boolean isWord;
+//        Map<Character, Node> map;
+//
+//        public Node() {
+//            isWord = false;
+//            map = new HashMap<>();
+//        }
+//    }
 
 //
 //    public List<String> findKEditDistance(String target, List<String> words, int k) {

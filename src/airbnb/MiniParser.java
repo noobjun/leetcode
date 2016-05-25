@@ -32,9 +32,14 @@ public class MiniParser {
         List<Nested> list;
 
         public Nested() {
-            isNumber = false;
-            number = -1;
-            list = new ArrayList<>();
+            this.isNumber = false;
+            list = new LinkedList<>();
+        }
+
+        public Nested(int number) {
+            this.isNumber = true;
+            this.number = number;
+            list = new LinkedList<>();
         }
 
         @Override
@@ -42,49 +47,102 @@ public class MiniParser {
             if (isNumber)
                 return String.valueOf(number);
             else
-                return list.toString();
+                return list.toString().replaceAll(" ", "");
         }
     }
 
-    public String parse(String line) {
-        String result = "";
-        if (line == null || line.length() == 0)
-            return result;
+    public String parse(String str) {
+        if (str == null || str.isEmpty())
+            return "";
 
-        line += " ";
+        if (str.charAt(0) != '[')
+            return new Nested(Integer.valueOf(str)).toString();
 
-        Stack<Nested> stack = new Stack<>();
         String token = "";
+        Stack<Nested> stack = new Stack<>();
 
-        for (int i = 0; i < line.length(); i++) {
-            char ch = line.charAt(i);
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
             if (ch == '[') {
                 stack.push(new Nested());
-            } else if (ch == ']' || ch == ',' || i == line.length() - 1) {
-                if (token.length() != 0) {
-                    int num = Integer.valueOf(token);
+            } else if (ch == ']' || ch == ',') {
+                if (!token.isEmpty()) {
+                    int value = Integer.valueOf(token);
                     token = "";
-                    Nested nestedNum = new Nested();
-                    nestedNum.isNumber = true;
-                    nestedNum.number = num;
-                    if (stack.isEmpty())
-                        stack.add(nestedNum);
-                    else
-                        stack.peek().list.add(nestedNum);
+                    stack.peek().list.add(new Nested(value));
                 }
-                if (ch == ']') {
-                    if (stack.size() >= 2) {
-                        Nested nested = stack.pop();
-                        stack.peek().list.add(nested);
-                    }
+
+                if (ch == ']' && stack.size() > 1) {
+                    Nested inner = stack.pop();
+                    stack.peek().list.add(inner);
                 }
             } else {
                 token += ch;
             }
         }
 
-        return stack.pop().toString().replaceAll(" ", "");
+        return stack.pop().toString();
     }
+
+//    public static class Nested {
+//        boolean isNumber;
+//        int number;
+//        List<Nested> list;
+//
+//        public Nested() {
+//            isNumber = false;
+//            number = -1;
+//            list = new ArrayList<>();
+//        }
+//
+//        @Override
+//        public String toString() {
+//            if (isNumber)
+//                return String.valueOf(number);
+//            else
+//                return list.toString();
+//        }
+//    }
+//
+//    public String parse(String line) {
+//        String result = "";
+//        if (line == null || line.length() == 0)
+//            return result;
+//
+//        line += " ";
+//
+//        Stack<Nested> stack = new Stack<>();
+//        String token = "";
+//
+//        for (int i = 0; i < line.length(); i++) {
+//            char ch = line.charAt(i);
+//            if (ch == '[') {
+//                stack.push(new Nested());
+//            } else if (ch == ']' || ch == ',' || i == line.length() - 1) {
+//                if (token.length() != 0) {
+//                    int num = Integer.valueOf(token);
+//                    token = "";
+//                    Nested nestedNum = new Nested();
+//                    nestedNum.isNumber = true;
+//                    nestedNum.number = num;
+//                    if (stack.isEmpty())
+//                        stack.add(nestedNum);
+//                    else
+//                        stack.peek().list.add(nestedNum);
+//                }
+//                if (ch == ']') {
+//                    if (stack.size() >= 2) {
+//                        Nested nested = stack.pop();
+//                        stack.peek().list.add(nested);
+//                    }
+//                }
+//            } else {
+//                token += ch;
+//            }
+//        }
+//
+//        return stack.pop().toString().replaceAll(" ", "");
+//    }
 
 
 //    public static class Nested {

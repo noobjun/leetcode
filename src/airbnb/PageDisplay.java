@@ -53,6 +53,40 @@ public class PageDisplay {
         p.display(input, 12);
     }
 
+    public int hostId(String line) {
+        return Integer.valueOf(line.split(",")[0]);
+    }
+
+    public void display(String[] inputs, int linesPerPage) {
+        List<String> lines = new LinkedList<>();
+        for (String each: inputs)
+            lines.add(each);
+        Map<Integer, String> map = new LinkedHashMap<>();
+
+        Iterator<String> iterator = lines.iterator();
+        int pageNum = 0;
+
+        while (iterator.hasNext()) {
+            String line = iterator.next();
+            int hostId = hostId(line);
+
+            if (!map.containsKey(hostId)) {
+                map.put(hostId, line);
+                iterator.remove();
+            }
+
+            if (!iterator.hasNext() || map.size() == linesPerPage) {
+                pageNum++;
+                System.out.println("Page " + pageNum);
+                for (String each : map.values())
+                    System.out.println(each);
+
+                iterator = lines.iterator();
+                map.clear(); // remember to clear map
+            }
+        }
+    }
+
 //    public void display(String[] inputs, int linesPerPage) {
 //        Map<Integer, String> map = new LinkedHashMap<>();
 //
@@ -89,41 +123,40 @@ public class PageDisplay {
 //    }
 
 
-
-    public void display(String[] input, int linesPerPage) {
-        if (input.length == 0)
-            return;
-
-        List<String> list = new LinkedList<>();
-        list.addAll(Arrays.asList(input));
-
-        Iterator<String> iterator = list.iterator();
-
-        LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
-        int pageNum = 1;
-
-        while (iterator.hasNext()) {
-            String line = iterator.next();
-            int hostId = hostId(line);
-            if (!map.containsKey(hostId)) {
-                map.put(hostId, line);
-                iterator.remove();
-            }
-
-            if (map.size() >= linesPerPage || !iterator.hasNext()) { // it's a if loop, not while
-                System.out.println("Page " + pageNum++);
-                for (String l : map.values())
-                    System.out.println(l);
-
-                map.clear(); // ** remember to clear map and reset iterator
-                iterator = list.iterator();
-            }
-        }
-    }
-
-    public int hostId(String line) {
-        return Integer.valueOf(line.split(",")[0]);
-    }
+//    public void display(String[] input, int linesPerPage) {
+//        if (input.length == 0)
+//            return;
+//
+//        List<String> list = new LinkedList<>();
+//        list.addAll(Arrays.asList(input));
+//
+//        Iterator<String> iterator = list.iterator();
+//
+//        LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
+//        int pageNum = 1;
+//
+//        while (iterator.hasNext()) {
+//            String line = iterator.next();
+//            int hostId = hostId(line);
+//            if (!map.containsKey(hostId)) {
+//                map.put(hostId, line);
+//                iterator.remove();
+//            }
+//
+//            if (map.size() >= linesPerPage || !iterator.hasNext()) { // it's a if loop, not while
+//                System.out.println("Page " + pageNum++);
+//                for (String l : map.values())
+//                    System.out.println(l);
+//
+//                map.clear(); // ** remember to clear map and reset iterator
+//                iterator = list.iterator();
+//            }
+//        }
+//    }
+//
+//    public int hostId(String line) {
+//        return Integer.valueOf(line.split(",")[0]);
+//    }
 
 //    public void display(String[] lines, int linesPerPage) {
 //        List<Collection<String>> pages = new LinkedList<>();

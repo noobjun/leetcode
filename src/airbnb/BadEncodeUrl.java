@@ -44,12 +44,9 @@ public class BadEncodeUrl {
         System.out.println(res2.size());
     }
 
-
-    // return type is list because a badEncStr might result in multiple valid ids
     public List<Integer> decodeFind(String badEncStr) {
         List<Integer> result = new LinkedList<>();
         helper(badEncStr, 0, "", result);
-
         return result;
     }
 
@@ -59,17 +56,45 @@ public class BadEncodeUrl {
                 int id = decode(current);
                 result.add(id);
             } catch (IllegalArgumentException e) {
-                // ignore and log
+                // ignore
             }
             return;
         }
 
         char ch = badEncStr.charAt(index);
-        if (Character.isLetter(ch) && Character.isLowerCase(ch)) {
+        if (Character.isLetter(ch)) {
             helper(badEncStr, index + 1, current + Character.toUpperCase(ch), result);
+            helper(badEncStr, index + 1, current + Character.toLowerCase(ch), result);
+        } else {
+            helper(badEncStr, index + 1, current + ch, result);
         }
-        helper(badEncStr, index + 1, current + ch, result);
     }
+
+// return type is list because a badEncStr might result in multiple valid ids
+//    public List<Integer> decodeFind(String badEncStr) {
+//        List<Integer> result = new LinkedList<>();
+//        helper(badEncStr, 0, "", result);
+//
+//        return result;
+//    }
+//
+//    public void helper(String badEncStr, int index, String current, List<Integer> result) {
+//        if (index == badEncStr.length()) {
+//            try {
+//                int id = decode(current);
+//                result.add(id);
+//            } catch (IllegalArgumentException e) {
+//                // ignore and log
+//            }
+//            return;
+//        }
+//
+//        char ch = badEncStr.charAt(index);
+//        if (Character.isLetter(ch) && Character.isLowerCase(ch)) {
+//            helper(badEncStr, index + 1, current + Character.toUpperCase(ch), result);
+//        }
+//        helper(badEncStr, index + 1, current + ch, result);
+//    }
 
 
     public int decode(String testEncStr) {
